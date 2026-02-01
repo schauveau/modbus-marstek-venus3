@@ -348,9 +348,6 @@ def modbus_connect(config):
                              trace_packet=packet_filter )
     client.connect()
 
-    if args.marstek_info:
-        marstek_print_info(client)
-    
     return client
 
     
@@ -899,8 +896,7 @@ try:
     parser.add_argument('--host')
     parser.add_argument('--port', type=int)
     parser.add_argument('--marstek-fix', default=True, action=argparse.BooleanOptionalAction)
-    parser.add_argument('-M','--marstek-info', action="store_true", help='Display Marstek information after connection ')
-
+    
     subparsers = parser.add_subparsers(dest='command',help='subcommand help')
     add_command_scan(subparsers)
     add_command_read(subparsers)

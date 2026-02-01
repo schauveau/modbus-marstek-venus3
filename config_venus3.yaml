@@ -1,9 +1,5 @@
 #
-# Marstek Venus 3 - Firmware 146 
-#
-#
-#
-#
+# Marstek Venus 3 firmware 146
 #
 
 global:
@@ -15,7 +11,7 @@ info:
 
   h30000_8.ui4uii:
     alias: '@h30000'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h30000_1.u: 'Battery Voltage (0.1V)'
     h30001_1.i: 'Signed Battery Power (W)'
     h30002_1.u: 'Temperature? (0.1°C)'
@@ -28,12 +24,12 @@ info:
 
   h30010_1.1u:
     alias: '@h30010'
-    append: [ '@all' ]
+    append: [ '@all', '@zero' ]
     h30010_1.u: 'always 0?'
 
   h30020_21.21u:
     alias: '@h30020'
-    append: [ '@zero' ]
+    append: [ '@all', '@zero' ]
     h30020_1.u: 'always 0?'
     h30021_1.u: 'always 0?'
     h30022_1.u: 'always 0?'
@@ -58,7 +54,7 @@ info:
 
   h30100_11.uiuuuuuuuuu:
     alias: '@h30100'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h30100_1.u: 'Battery Voltage (0.01V)'
     h30101_1.i: 'Battery Current (0.1A)'
     h30102_1.u: 'Cell Voltage? (mV)'
@@ -73,7 +69,7 @@ info:
 
   h30200_6.6u:
     alias: '@h30200'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h30200_1.u: 'EMS Version (146)'
     h30201_1.u: 'EMS Version minor? (18)'
     h30202_1.u: 'VNS Version (116)'
@@ -83,7 +79,7 @@ info:
 
   h30210_5.5u:
     alias: '@h30210'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h30210_1.u: 'always 3?'
     h30211_1.u: 'always 0?'
     h30212_1.u: 'always 5?'
@@ -92,7 +88,7 @@ info:
 
   h30300_10.4u6s:
     alias: '@h30300'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     # 0: Disconnected
     # 1: Connected
     h30300_1.u : 'WiFi state'
@@ -109,20 +105,20 @@ info:
 
   h30350_6.6s:
     alias: '@h30350'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h30350_6.s: 'COM Module Version'
 
   h30400_4.4u:
     alias: '@h30400'
-    append: [ '@all' ]
-    h30400_1.u: 'unknown (49320)'
-    h30401_1.u: 'unknown (288)'
-    h30402_1.u: 'unknown (49320)'
-    h30403_1.u: 'unknown (257)'
+    append: [ '@all', '@nonzero' ]
+    h30400_1.u: 'always 49320'
+    h30401_1.u: 'always 288'
+    h30402_1.u: 'always 49320'
+    h30403_1.u: 'always 257'
 
   h31000_10.4sxuuuuu:
     alias: '@h31000'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h31000_4.s: 'Model Name'  # 'VNSE3-0' 
     h31004_1.x: 'always 0x0607' # a version number?
     h31005_1.u: 'always 0?'
@@ -133,9 +129,9 @@ info:
 
   h32100_15.uxIu:
     alias: '@h32100'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h32100_1.u  : 'Battery voltage (0.1V) ?'
-    h32101_1.x  : 'unknown: idle=0x0000 charge=0x99?? discharge=0x00??'
+    h32101_1.x  : 'unknown: idle=0x0000 discharge=0x00?? charge=0x99??'
     h32102_2.I  : 'Battery power? No! always 0?'
     h32104_1.u  : 'Soc (%)'
     h32105_1.u  : 'Total Energy (Wh)'
@@ -149,19 +145,18 @@ info:
     h32113_1.u  : 'always 0?'
     h32114_1.u  : 'always 0?'
 
-  h32200_5.uuUu:
+  h32200_5.uuIu:
     alias: '@h32200'
-    append: [ '@all' ]
-    # AC Voltage is small bu non-zero when disconnected from Grid
+    append: [ '@all', '@nonzero' ]
+    # AC Voltage is small but non-zero when disconnected from Grid
     h32200_1.u: 'AC Voltage? (0.1V)'
     h32201_1.u: 'AC Voltage? (0.1V)' # same? 
-    h32202_2.U: 'AC Power Unsigned (W)'
-    # h32203_1.u: 'but always 0 when read alone'
+    h32202_2.I: 'AC Power (W)'
     h32204_1.u: 'AC Frequency (0.1Hz)'
 
   h32300_3.3u:
     alias: '@h32300'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     # Backup Voltage are small but non-zero when backup is disabled
     h32300_1.u: 'Backup AC Voltage (0.1V)'
     h32301_1.u: 'Backup AC Voltage (0.1V)' # same
@@ -169,7 +164,7 @@ info:
 
   h33000_12.6U:
     alias: '@h33000'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h33000_2.U: 'Total charging energy (1/100 kWh)'
     h33002_2.U: 'Total discharging energy (1/100 kWh)'
     h33004_2.U: 'Daily charging energy (1/100 kWh)'
@@ -180,7 +175,7 @@ info:
   # That block probably contain the BMS information  
   h34000_34.ui32u:
     alias: '@h34000'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h34000_1.u: 'Battery Voltage (0.01V)'
     h34001_1.i: 'Signed Battery Current (0.1A) NOT SURE!!!!'
     h34002_1.u: 'SOC (0.1%)'
@@ -221,59 +216,61 @@ info:
   #             batteries while clustering.
   h34100_34.34u:
     alias: '@h34100'
-    append: [ '@zero' ]
+    append: [ '@all', '@zero' ]
   h34200_34.34u:
     alias: '@h34200'
-    append: [ '@zero' ]    
+    append: [ '@all', '@zero' ]    
   h34300_34.34u:
     alias: '@h34300'
-    append: [ '@zero' ]    
+    append: [ '@all', '@zero' ]    
   h34400_34.34u:
     alias: '@h34400'
-    append: [ '@zero' ]    
+    append: [ '@all', '@zero' ]    
   h34500_34.34u:
     alias: '@h34500'
-    append: [ '@zero' ]
+    append: [ '@all', '@zero' ]
   h34600_34.34u:
     alias: '@h34600'
-    append: [ '@zero' ]
+    append: [ '@all', '@zero' ]
     
   h35000_3.3u:
     alias: '@h35000'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h35000_1.u: 'Internal temperature (0.1°C)'
     h35001_1.u: 'MOS1 temperature (0.1°C)'
     h35002_1.u: 'MOS2 temperature (0.1°C)'
 
   h35010_2.2u:
     alias: '@h35010'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h35010_1.u: 'Max Cell temperature (0.1°C) ' # same as h34013_1.u
     h35011_1.u: 'Min Cell temperature (0.1°C) ' # same as h34014_1.u
 
   h35100_1.1u:
     alias: '@h35100'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     # 0 Sleep
     # 1 Stand-By
     # 2 Charge
     # 3 Discharge
     # 4 Backup/Mode or Fault
     # 5 OTA Upgrade
-    # 6 Bypass
+    # 6 Bypass (i.e. Standby when AC is connected and backup is enabled?)
     h35100_1.u: 'Inverter State'
 
   h35110_3.3u:
     alias: '@h35110'
-    append: [ '@all' ]
-    h35110_1.u: 'BMS Charge Voltage Limit (0.1V)'
-    h35111_1.u: 'BMS Charge Current Limit (0.1A)'    # 1000 = 100A
-    h35112_1.u: 'BMS Discharge Current Limit (0.1A)' # 1000 = 100A 
+    append: [ '@all', '@nonzero' ]
+    h35110_1.u: 'Battery Charge Voltage Limit (0.1V)'
+    h35111_1.u: 'Battery Charge Current Limit (0.1A)'    # 1000 = 100A
+    h35112_1.u: 'Battery Discharge Current Limit (0.1A)' # 1000 = 100A 
 
-  # Th e
+  # h36000_2 and h36100_4 probably contain error flags.
   #
-  # 
+  # The documentation in Duravolt-Plug-in-Battery-Modbus.pdf is outdated. 
   #
+  # For example, Duravolt documents says 'WiFi abnormal' for bit 0 of h36000
+  # but on my Venus3 it goes to 1 when the battery is disconnected from AC  
   #
   h36000_2.2b:
     alias: '@h36000'
@@ -297,7 +294,7 @@ info:
 
   h37000_25.4ui20u:
     alias: '@h37000'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h37000_1.u: 'always 1'
     h37001_1.u: 'always 0'
     h37002_1.u: 'always 0'
@@ -326,105 +323,108 @@ info:
 
   h41000_1.1u:
     alias: '@h41000'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h41000_1.u: 'zero. Write 0x55aa for device restart'
     
-  # h41001
-  #
-  # https://github.com/ViperRNMC/marstek_venus_modbus/blob/main/custom_components/marstek_modbus/registers_v3.py
-  # Factory reset: write 0x55aa in h41001 
-  # Not readable? 
-  #
+  # h41001_1 ? 
+  #  - Is that a writable-only register?
+  #  - Documented as 'factory reset' when writing 0x55aa 
+  #  - UNTESTED
   
-   
   h41100_1.1u:
     alias: '@h41100'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h41100_1.u: 'always 1 (modbus address?)'
 
   h41200_1.1u:
     alias: '@h41200'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h41200_1.u: 'Backup output (0=On 1=Off)'
 
   h41500_16.16s:
     alias: '@h41500'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h41500_16.s: 'WiFi SSID'
 
   # Always filled with zero.
-  # IDEA: After the WiFi SSID sp that could be
+  # IDEA: After the WiFi SSID so that could be
   #       a write-only location for the WiFi password?
   h41600_32.32u:
     alias: '@h41600'
-    append: [ '@zero' ]
-    h41600_1.u: 'unknown'
-    h41601_1.u: 'unknown'
-    h41602_1.u: 'unknown'
-    h41603_1.u: 'unknown'
-    h41604_1.u: 'unknown'
-    h41605_1.u: 'unknown'
-    h41606_1.u: 'unknown'
-    h41607_1.u: 'unknown'
-    h41608_1.u: 'unknown'
-    h41609_1.u: 'unknown'
-    h41610_1.u: 'unknown'
-    h41611_1.u: 'unknown'
-    h41612_1.u: 'unknown'
-    h41613_1.u: 'unknown'
-    h41614_1.u: 'unknown'
-    h41615_1.u: 'unknown'
-    h41616_1.u: 'unknown'
-    h41617_1.u: 'unknown'
-    h41618_1.u: 'unknown'
-    h41619_1.u: 'unknown'
-    h41620_1.u: 'unknown'
-    h41621_1.u: 'unknown'
-    h41622_1.u: 'unknown'
-    h41623_1.u: 'unknown'
-    h41624_1.u: 'unknown'
-    h41625_1.u: 'unknown'
-    h41626_1.u: 'unknown'
-    h41627_1.u: 'unknown'
-    h41628_1.u: 'unknown'
-    h41629_1.u: 'unknown'
-    h41630_1.u: 'unknown'
-    h41631_1.u: 'unknown'
+    append: [ '@all', '@zero' ]
+    h41600_1.u: 'always 0'
+    h41601_1.u: 'always 0'
+    h41602_1.u: 'always 0'
+    h41603_1.u: 'always 0'
+    h41604_1.u: 'always 0'
+    h41605_1.u: 'always 0'
+    h41606_1.u: 'always 0'
+    h41607_1.u: 'always 0'
+    h41608_1.u: 'always 0'
+    h41609_1.u: 'always 0'
+    h41610_1.u: 'always 0'
+    h41611_1.u: 'always 0'
+    h41612_1.u: 'always 0'
+    h41613_1.u: 'always 0'
+    h41614_1.u: 'always 0'
+    h41615_1.u: 'always 0'
+    h41616_1.u: 'always 0'
+    h41617_1.u: 'always 0'
+    h41618_1.u: 'always 0'
+    h41619_1.u: 'always 0'
+    h41620_1.u: 'always 0'
+    h41621_1.u: 'always 0'
+    h41622_1.u: 'always 0'
+    h41623_1.u: 'always 0'
+    h41624_1.u: 'always 0'
+    h41625_1.u: 'always 0'
+    h41626_1.u: 'always 0'
+    h41627_1.u: 'always 0'
+    h41628_1.u: 'always 0'
+    h41629_1.u: 'always 0'
+    h41630_1.u: 'always 0'
+    h41631_1.u: 'always 0'
 
   h42000_1.1x:
     alias: '@h42000'
-    append: [ '@all' ]
-    # Note: Can write 0x55AA to enable but 
+    append: [ '@all', '@nonzero' ]
+    # Write 0x55AA to enable but must use h43000_1 to disable  
     h42000_1.x: 'Forced Mode 0x55AA=On 0x55BB=Off'
 
   h42010_2.2u:
     alias: '@h42010'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h42010_1.u: 'Forced Action 0=stop 1=charge 2=discharge'
     # Charge/Discharge to SOC at max allowed power
     # Use ... and ...  to control power.
     # How to detect that C/D to SOC is in progress or finished?
-    h42011_1.u: 'Charge/Discharge to SOC (%)' 
+    h42011_1.u: 'Forced Charge/Discharge to SOC (%)' 
 
   h42020_2.2u:
     alias: '@h42020'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     h42020_1.u: 'Forced Charging Power (W)'
     h42021_1.u: 'Forced Discharging Power (W)'
 
   h43000_1.1u:
     alias: '@h43000'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     # Read 0 for Manual or 1 for any other mode including 'Forced'
     # Write to disable Forced mode (see h42000_1)
-    h43000_1.u: 'Working Mode (0=Manual 1=Auto 2=AI)'
+    h43000_1.u: 'Working Mode (0=Manual 1=Auto/Anti-Feed 2=AI/Trade)'
 
-  # 6 schedules of 5 registers
-  #   - Days (bit 0=Monday ... 6=Sunday)   
+  # 6 manual schedules of 5 registers
+  #   - Days (bits 0:Monday ... 6:Sunday) so 128=all
   #   - Start = Hour*100+Minute
   #   - End   = Hour*100+Minute
   #   - Power: Charge<-100 or Discharge>100 or -1=Auto 
   #   - 0 (disabled) or 1 (enabled)
+  #
+  # Remarks:
+  #   - unused schedules are filled with zeros.
+  #   - only 6 schedules via modbus but the mobile app
+  #     can do 9 and the OpenApi document 'supports 0-9' so
+  #     a total of 10 !!!!!!
   #
   h43100_30.i:
     alias: '@h43100'
@@ -462,24 +462,24 @@ info:
 
   h44002_2.2u:
     alias: '@h44002'
-    append: [ '@all' ]
+    append: [ '@all', '@nonzero' ]
     # Max Charge and Discharge Power
     #   -> Probably applicable to all charge/discharge modes
     #   -> Used by Charge/Discharge to SOC (see h42011_1.u)
     h44002_1.u: 'Max Charge Power (W)'
     h44003_1.u: 'Max Discharge Power (W)'
 
-  h45603_4.2u:
+  h45603_3.3u:
     alias: '@h45604'
-    append: [ '@all' ]
-    h45603_1.u: 'unknown. Always 9266?'
-    h45604_1.u: 'unknown. Always 18791?'
-    h45605_1.u: 'unknown. Always 74?'
+    append: [ '@all', '@nonzero' ]
+    h45603_1.u: 'always 9266?'
+    h45604_1.u: 'always 18791?'
+    h45605_1.u: 'always 74?'
 
   h47400_1.1x:
     alias: '@h47400'
-    append: [ '@all' ]
-    h47400_1.x: 'unknown. Always 0xAABB?' # A switch like in h42000? 
+    append: [ '@all', '@nonzero' ]
+    h47400_1.x: 'always 0xAABB?' # A switch like in h42000? 
 
 alias:
    '@all': [ ]  # ...
