@@ -352,36 +352,9 @@ def modbus_connect(config):
 
     
     
-#
-# Scale an int value and, if possible, without changing its type
-#
-# Reminder: in python, 0/1 = 0.0 so a 'float' 
-#
-def scale(v, mul=None, div=None):
-    if type(v) == int:
-        if mul is not None:
-            v=v*mul
-        if div is not None:
-            v=v/div
-    return v
 
 def read_holding_registers(client, reg, count):
-    return client.read_holding_registers(reg, count=count)
-
-def safe_read_string(client, reg, count, default=None):
-    ans = client.read_holding_registers(reg, count=count)
-    if ans.isError():
-        return default
-    else:
-        return registers_to_string(ans.registers)
-    
-def safe_read_u16(client, reg, count=1, default=None):
-    ans = client.read_holding_registers(reg, count=count)
-    if ans.isError():
-        return default
-    else:
-        return ans.registers
-    
+    return client.read_holding_registers(reg, count=count)      
     
 
 def modbus_exception_name(code):
@@ -404,21 +377,6 @@ def marstek_packet_correction(sending: bool, data: bytes) -> bytes:
     return data
 
 
-def marstek_print_info(client):
-
-    model = safe_read_string(client, 31000,4, '?')
-    com   = safe_read_string(client, 30350,6, '?')
-    
-    #
-    # I am not 100% certain that odd registers contains minor versions but that makes sense.
-    # If not, they probably represent a version number for something else.
-    #
-    version  = safe_read_u16(client, 30200,6, ['?']*6)
-    ems=f"{version[0]}.{version[1]}"
-    vns=f"{version[2]}.{version[3]}"
-    bms=f"{version[4]}.{version[5]}"
-    
-    print(f"# Marstek model={model} com={com} ems={ems} vns={vns} bms={bms}")
 
 #
 #
@@ -473,99 +431,29 @@ def registers_to_string(values):
     return repr(data.rstrip(b'\0'))[1:]
 
 
+#
+# Used by action_monitor and action_read to read and display according to a list of specifications.
+#
+#
+def monitor(client,
+            speclist,
+            count=1,
+            delay=0,
+            show_iteration=False,
+            show_spec=False,
+            show_all=False,
+            show_previous=False,
+            show_time=False ):
 
-
-# def apply_format(fmt, r):
-#     result = [] 
-#     steps, loop = parse_register_group_spec(fmt)
-#     pos=0
-#     i=0
-#     remain=len(r)
-#     while remain>0:
-#         code, size = steps[pos]
-#         if size>remain:
-#             value = "TRUNCATED"
-#             size = remain
-#         elif code in FORMATTERS:
-#             formatter = FORMATTERS[code][2]
-#             value = formatter( *r[i:i+size] )
-#         else:
-#             raise Exception(f"Unexpected formatter '{code}'")
-#         pos=pos+1
-#         i=i+size
-#         remain=remain-size
-#         # The format used for that element 
-#         elem_format = str(size)+code if size!=1 else code
-#         result.append( (size, str(value) , elem_format ) )        
-#         if pos >= len(steps):
-#             pos = loop
-#     return result
-
-def add_command_read(subparsers):
-    sp = subparsers.add_parser('read', help='Read registers ranges')    
-    sp.add_argument('read_ranges', metavar='RANGE', nargs='+', help='range description')
-    sp.add_argument('--compact', dest='read_compact', action=argparse.BooleanOptionalAction)
-    
-def action_read(args, config):
-
-    compact  = args.read_compact
-
-    ranges = map(ModbusSpec.parse, args.read_ranges) 
-            
-    client = modbus_connect(config)
-
-    for rg in ranges:
-        
-        print(f"# Read {rg.name()} ")
-        
-        address = rg.start
-        for elem in rg.read(client):
-            src = f"{address}_{elem[0]}.{elem[2]}"
-            val = elem[1]
-            print("{:12} = {}".format(src,val) )
-        address = address + elem[0]
-                
-
-    client.close()
-
-def add_command_monitor(subparsers):
-    
-    sp = subparsers.add_parser('monitor', help='Monitor changes in register ranges')    
-    sp.add_argument('monitor_ranges', metavar='RANGE', nargs='+', help='range description')
-    sp.add_argument('-d', '--delay', dest='monitor_delay', type=float, nargs='?', default=1.0 )
-    sp.add_argument('-c', '--count', dest='monitor_count', type=int, nargs='?', default=0 )
-    sp.add_argument('-A', '--show-all', dest='monitor_show_all', action='store_true')
-    sp.add_argument('-I', '--show-iteration', dest='monitor_show_iteration', action='store_true')
-    sp.add_argument('-G', '--show-group', dest='monitor_show_group', action='store_true')
-    sp.add_argument('-P', '--show-previous', dest='monitor_show_previous', action='store_true')
-    sp.add_argument('-T', '--show-time', dest='monitor_show_time', action='store_true')
-
-    sp.add_argument('--ignore', dest='monitor_ignore', action='extend', nargs='*')
-
-def action_monitor(args, config):
-
-    speclist = expand_specifications( args.monitor_ranges, ALIASES)
+    speclist = expand_specifications( speclist, ALIASES)
     ranges = list(map(ModbusSpec.parse, speclist))
-    
-    count  = args.monitor_count  # Number of iterations (0 for infinite)
-    delay  = args.monitor_delay  # Sleep delay after each iteration
-
-    show_iteration = args.monitor_show_iteration
-    show_group     = args.monitor_show_group
-    show_all       = args.monitor_show_all
-    show_previous  = args.monitor_show_previous
-    show_time      = args.monitor_show_time
-    
-    client = modbus_connect(config)
-
     previous_values={} 
-    
     i=0
     while True:
         if show_iteration:
             print(f"# Iteration {i+1}")
         for rg in ranges:
-            if i==0 and show_group: 
+            if i==0 and show_spec: 
                 print(f"# Read {rg.name()} ")
             kind    = rg.kind
             address = rg.start
@@ -593,17 +481,104 @@ def action_monitor(args, config):
         if i==count:
             break
         time.sleep(delay)
-   
+
+
+def add_command_read(subparsers):
+    sp = subparsers.add_parser('read', help='Read registers')    
+    sp.add_argument('read_speclist', metavar='SPEC', nargs='+', help='read specification')
+    sp.add_argument('-S', '--show-spec', dest='read_show_spec', action='store_true')
+    
+def action_read(args, config):
+    count  = 1
+    show_spec = args.read_show_spec
+    
+    client = modbus_connect(config)
+
+    monitor( client,
+             args.read_speclist,
+             count=1,
+             show_spec=show_spec,
+    )
+    client.close()
+    
+
+    client.close()
+
+def add_command_monitor(subparsers):
+    
+    sp = subparsers.add_parser('monitor', help='Monitor registers for changes')    
+    sp.add_argument('monitor_speclist',
+                    metavar='SPEC',
+                    nargs='+',
+                    help='read specification')
+    sp.add_argument('-d', '--delay',
+                    dest='monitor_delay',
+                    metavar='SECONDS',
+                    type=float,
+                    default=1.0 ,
+                    help='Wait for that many seconds after each iteration (default 1.0)')
+    sp.add_argument('-c', '--count',
+                    dest='monitor_count',
+                    action='store',
+                    metavar='INT',
+                    type=int,
+                    default=0 ,
+                    help='Set the number of iterations or 0 for infinite (default 0)')
+    sp.add_argument('-A', '--show-all',
+                    dest='monitor_show_all',
+                    action='store_true',
+                    help='Show all values. The default is to only show changes')
+    sp.add_argument('-I', '--show-iteration',
+                    dest='monitor_show_iteration',
+                    action='store_true',
+                    help='Show the iteration number')
+    sp.add_argument('-S', '--show-spec',
+                    dest='monitor_show_spec',
+                    action='store_true',
+                    help='Show the read specications')
+    sp.add_argument('-P', '--show-previous',
+                    dest='monitor_show_previous',
+                    action='store_true',
+                    help='Show previous and new value when a change occurs')
+    sp.add_argument('-T', '--show-time',
+                    dest='monitor_show_time',
+                    action='store_true',
+                    help='Show a timestamp')
+
+    
+def action_monitor(args, config):
+
+    count  = args.monitor_count  # Number of iterations (0 for infinite)
+    delay  = args.monitor_delay  # Sleep delay after each iteration
+
+    show_iteration = args.monitor_show_iteration
+    show_spec      = args.monitor_show_spec
+    show_all       = args.monitor_show_all
+    show_previous  = args.monitor_show_previous
+    show_time      = args.monitor_show_time
+    
+    client = modbus_connect(config)
+
+    monitor( client,
+             args.monitor_speclist,
+             count=count,
+             delay=delay,
+             show_iteration=show_iteration,
+             show_spec=show_spec,
+             show_all=show_all,
+             show_previous=show_previous,
+             show_time=show_time
+    )
     client.close()
 
 def add_command_scan(subparsers):
     
-    sp = subparsers.add_parser('scan', help='Scan a range of registers')
+    sp = subparsers.add_parser('scan', help='Scan for readable registers')
     sp.add_argument('scan_start', metavar='START', type=int, help='start address')
     sp.add_argument('scan_end'  , metavar='END',   type=int, help='end address')
     sp.add_argument('scan_step' , metavar='STEP',  type=int, nargs='?', default=10, help='step between addresses (default 10)')
-    sp.add_argument('-y','--yaml', dest='scan_yaml' , action='store_true', help="produce YAML output") 
-    sp.add_argument('-Y','--yaml-all', dest='scan_yaml_all' , action='store_true', help="produce YAML output") 
+    sp.add_argument('-y','--yaml', dest='scan_yaml' , action='store_true', help="produce YAML configuration file") 
+    sp.add_argument('-Y','--yaml-all', dest='scan_yaml_all' , action='store_true', help="produce more YAML") 
     sp.add_argument('-p','--show-progress', dest='scan_progress' , action='store_true', help="Display progression") 
     
     

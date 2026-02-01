@@ -1,13 +1,13 @@
 ===== HA MODBUS STOP VENUS =====
-### python3 /home/chauveau/git/modbus-marstek-venus3/modbus.py --config config_venus3.yaml monitor -c 1 -G @all
+### python3 /home/chauveau/git/modbus-marstek-venus3/modbus.py -c config_venus3.yaml read -S @all
 # Read 30000_8.ui4uii 
-h30000_1.u   = 532        # Battery Voltage (0.1V)
-h30001_1.i   = 138        # Signed Battery Power (W)
-h30002_1.u   = 196        # Temperature? (0.1°C)
-h30003_1.u   = 207        # Temperature? (0.1°C)
-h30004_1.u   = 2325       # AC Voltage (0.1V)
-h30005_1.u   = 8          # Backup AC Voltage (0.1V)
-h30006_1.i   = -175       # Signed AC Power (W)
+h30000_1.u   = 527        # Battery Voltage (0.1V)
+h30001_1.i   = -82        # Signed Battery Power (W)
+h30002_1.u   = 232        # Temperature? (0.1°C)
+h30003_1.u   = 244        # Temperature? (0.1°C)
+h30004_1.u   = 2411       # AC Voltage (0.1V)
+h30005_1.u   = 18         # Backup AC Voltage (0.1V)
+h30006_1.i   = 47         # Signed AC Power (W)
 h30007_1.i   = 0          # Signed Backup Power (W)
 # Read 30010_1.1u 
 h30010_1.u   = 0          # always 0?
@@ -34,15 +34,15 @@ h30038_1.u   = 0          # always 0?
 h30039_1.u   = 0          # always 0?
 h30040_1.u   = 0          # always 0?
 # Read 30100_11.uiuuuuuuuuu 
-h30100_1.u   = 5351       # Battery Voltage (0.01V)
-h30101_1.i   = 26         # Battery Current (0.1A)
-h30102_1.u   = 3346       # Cell Voltage? (mV)
-h30103_1.u   = 3344       # Cell Voltage? (mV)
-h30104_1.u   = 1380       # a temperature? (0.01°C)
-h30105_1.u   = 1280       # a temperature? (0.01°C)
+h30100_1.u   = 5296       # Battery Voltage (0.01V)
+h30101_1.i   = -11        # Battery Current (0.1A)
+h30102_1.u   = 3312       # Cell Voltage? (mV)
+h30103_1.u   = 3309       # Cell Voltage? (mV)
+h30104_1.u   = 1570       # a temperature? (0.01°C)
+h30105_1.u   = 1470       # a temperature? (0.01°C)
 h30106_1.u   = 1          # always 1?
-h30107_1.u   = 210        # Temperature? (0.1°C)
-h30108_1.u   = 181        # Temperature? (0.1°C)
+h30107_1.u   = 236        # Temperature? (0.1°C)
+h30108_1.u   = 209        # Temperature? (0.1°C)
 h30109_1.u   = 0          # always 0?
 h30110_1.u   = 0          # always 0?
 # Read 30200_6.6u 
@@ -62,7 +62,7 @@ h30214_1.u   = 0          # always 0?
 h30300_1.u   = 1          # WiFi state
 h30301_1.u   = 3          # Bluetooth state
 h30302_1.u   = 1          # Cloud state
-h30303_1.u   = 39         # WiFi signal trength (-1dBm)
+h30303_1.u   = 36         # WiFi signal trength (-1dBm)
 h30304_6.s   = 'BC2A33601FF9' # MAC of Bluetooth?
 # Read 30350_6.6s 
 h30350_6.s   = '202409090159' # COM Module Version
@@ -80,14 +80,14 @@ h31007_1.u   = 0          # always 0?
 h31008_1.u   = 0          # always 0?
 h31009_1.u   = 0          # always 0?
 # Read 32100_15.uxIu 
-h32100_1.u   = 5351       # Battery voltage (0.1V) ?
-h32101_1.x   = 0x0002     # unknown: idle=0x0000 discharge=0x00?? charge=0x99??
+h32100_1.u   = 5296       # Battery voltage (0.1V) ?
+h32101_1.x   = 0x9998     # unknown: idle=0x0000 discharge=0x00?? charge=0x99??
 h32102_2.I   = 0          # Battery power? No! always 0?
-h32104_1.u   = 95         # Soc (%)
+h32104_1.u   = 83         # Soc (%)
 h32105_1.u   = 5120       # Total Energy (Wh)
-h32106_1.u   = 500        # always 1000?
+h32106_1.u   = 1000       # always 1000?
 h32107_1.u   = 1000       # always 1000?
-h32108_1.u   = 138        # a temperature (0.1°C)?
+h32108_1.u   = 157        # a temperature (0.1°C)?
 h32109_1.u   = 1          # always 1?
 h32110_1.u   = 1          # always 1?
 h32111_1.u   = 1          # always 1?
@@ -95,56 +95,56 @@ h32112_1.u   = 0          # always 0?
 h32113_1.u   = 0          # always 0?
 h32114_1.u   = 0          # always 0?
 # Read 32200_5.uuIu 
-h32200_1.u   = 2325       # AC Voltage? (0.1V)
-h32201_1.u   = 2325       # AC Voltage? (0.1V)
-h32202_2.I   = -186       # AC Power (W)
-h32204_1.u   = 500        # AC Frequency (0.1Hz)
+h32200_1.u   = 2412       # AC Voltage? (0.1V)
+h32201_1.u   = 2412       # AC Voltage? (0.1V)
+h32202_2.I   = 52         # AC Power (W)
+h32204_1.u   = 499        # AC Frequency (0.1Hz)
 # Read 32300_3.3u 
-h32300_1.u   = 10         # Backup AC Voltage (0.1V)
-h32301_1.u   = 10         # Backup AC Voltage (0.1V)
+h32300_1.u   = 15         # Backup AC Voltage (0.1V)
+h32301_1.u   = 15         # Backup AC Voltage (0.1V)
 h32302_1.u   = 0          # Backup Power (TO BE VERIFIED)
 # Read 33000_12.6U 
-h33000_2.U   = 4179       # Total charging energy (1/100 kWh)
-h33002_2.U   = 2735       # Total discharging energy (1/100 kWh)
-h33004_2.U   = 180        # Daily charging energy (1/100 kWh)
-h33006_2.U   = 29         # Daily discharging energy (1/100 kWh)
-h33008_2.U   = 180        # Monthly charging energy (1/100 kWh)
-h33010_2.U   = 29         # Monthly dicharging energy (1/100 kWh)
+h33000_2.U   = 4202       # Total charging energy (1/100 kWh)
+h33002_2.U   = 2785       # Total discharging energy (1/100 kWh)
+h33004_2.U   = 203        # Daily charging energy (1/100 kWh)
+h33006_2.U   = 79         # Daily discharging energy (1/100 kWh)
+h33008_2.U   = 203        # Monthly charging energy (1/100 kWh)
+h33010_2.U   = 79         # Monthly dicharging energy (1/100 kWh)
 # Read 34000_34.ui32u 
-h34000_1.u   = 5352       # Battery Voltage (0.01V)
-h34001_1.i   = 29         # Signed Battery Current (0.1A) NOT SURE!!!!
-h34002_1.u   = 953        # SOC (0.1%)
-h34003_1.u   = 8          # unknown (was 5 now 8) maybe a cycle counter
+h34000_1.u   = 5297       # Battery Voltage (0.01V)
+h34001_1.i   = -3         # Signed Battery Current (0.1A) NOT SURE!!!!
+h34002_1.u   = 838        # SOC (0.1%)
+h34003_1.u   = 8          # unknown (was 5 now 8) a bat cycle counter?
 h34004_1.u   = 3          # always 3
-h34005_1.u   = 3347       # Max Cell Voltage (mV)
-h34006_1.u   = 3343       # Max Cell Voltage (mV)
+h34005_1.u   = 3313       # Max Cell Voltage (mV)
+h34006_1.u   = 3309       # Min Cell Voltage (mV)
 h34007_1.u   = 0          # always 0?
 h34008_1.u   = 0          # always 0?
 h34009_1.u   = 0          # always 0?
-h34010_1.u   = 106        # a historical min temperature? (0.1°C) [last 106]
-h34011_1.u   = 210        # a temperature? (0.1°C)
-h34012_1.u   = 177        # a temperature? (0.1°C)
-h34013_1.u   = 139        # Max Cell temperature? (0.1°C)
-h34014_1.u   = 129        # Min Cell temperature? (0.1°C)
-h34015_1.u   = 129        # a temperature? (0.1°C)
-h34016_1.u   = 136        # a temperature? (0.1°C)
+h34010_1.u   = 106        # always 106? The BMS version?
+h34011_1.u   = 236        # a temperature? (0.1°C)
+h34012_1.u   = 197        # a temperature? (0.1°C)
+h34013_1.u   = 157        # Max Cell temperature? (0.1°C)
+h34014_1.u   = 147        # Min Cell temperature? (0.1°C)
+h34015_1.u   = 148        # a temperature? (0.1°C)
+h34016_1.u   = 155        # a temperature? (0.1°C)
 h34017_1.u   = 1          # always 1?
-h34018_1.u   = 3346       # Cell Voltage 1 (mV)
-h34019_1.u   = 3343       # Cell Voltage 2 (mV)
-h34020_1.u   = 3345       # Cell Voltage 3 (mV)
-h34021_1.u   = 3347       # Cell Voltage 4 (mV)
-h34022_1.u   = 3345       # Cell Voltage 5 (mV)
-h34023_1.u   = 3345       # Cell Voltage 6 (mV)
-h34024_1.u   = 3345       # Cell Voltage 7 (mV)
-h34025_1.u   = 3346       # Cell Voltage 8 (mV)
-h34026_1.u   = 3345       # Cell Voltage 9 (mV)
-h34027_1.u   = 3347       # Cell Voltage 10 (mV)
-h34028_1.u   = 3346       # Cell Voltage 11 (mV)
-h34029_1.u   = 3345       # Cell Voltage 12 (mV)
-h34030_1.u   = 3345       # Cell Voltage 13 (mV)
-h34031_1.u   = 3346       # Cell Voltage 14 (mV)
-h34032_1.u   = 3345       # Cell Voltage 15 (mV)
-h34033_1.u   = 3344       # Cell Voltage 16 (mV)
+h34018_1.u   = 3312       # Cell Voltage 1 (mV)
+h34019_1.u   = 3312       # Cell Voltage 2 (mV)
+h34020_1.u   = 3310       # Cell Voltage 3 (mV)
+h34021_1.u   = 3309       # Cell Voltage 4 (mV)
+h34022_1.u   = 3310       # Cell Voltage 5 (mV)
+h34023_1.u   = 3311       # Cell Voltage 6 (mV)
+h34024_1.u   = 3310       # Cell Voltage 7 (mV)
+h34025_1.u   = 3312       # Cell Voltage 8 (mV)
+h34026_1.u   = 3310       # Cell Voltage 9 (mV)
+h34027_1.u   = 3312       # Cell Voltage 10 (mV)
+h34028_1.u   = 3309       # Cell Voltage 11 (mV)
+h34029_1.u   = 3310       # Cell Voltage 12 (mV)
+h34030_1.u   = 3310       # Cell Voltage 13 (mV)
+h34031_1.u   = 3312       # Cell Voltage 14 (mV)
+h34032_1.u   = 3312       # Cell Voltage 15 (mV)
+h34033_1.u   = 3312       # Cell Voltage 16 (mV)
 # Read 34100_34.34u 
 h34100_1.u   = 0         
 h34101_1.u   = 0         
@@ -356,17 +356,17 @@ h34631_1.u   = 0
 h34632_1.u   = 0         
 h34633_1.u   = 0         
 # Read 35000_3.3u 
-h35000_1.u   = 196        # Internal temperature (0.1°C)
-h35001_1.u   = 207        # MOS1 temperature (0.1°C)
-h35002_1.u   = 207        # MOS2 temperature (0.1°C)
+h35000_1.u   = 231        # Internal temperature (0.1°C)
+h35001_1.u   = 239        # MOS1 temperature (0.1°C)
+h35002_1.u   = 239        # MOS2 temperature (0.1°C)
 # Read 35010_2.2u 
-h35010_1.u   = 139        # Max Cell temperature (0.1°C) 
-h35011_1.u   = 129        # Min Cell temperature (0.1°C) 
+h35010_1.u   = 157        # Max Cell temperature (0.1°C) 
+h35011_1.u   = 147        # Min Cell temperature (0.1°C) 
 # Read 35100_1.1u 
-h35100_1.u   = 2          # Inverter State
+h35100_1.u   = 3          # Inverter State
 # Read 35110_3.3u 
 h35110_1.u   = 576        # Battery Charge Voltage Limit (0.1V)
-h35111_1.u   = 500        # Battery Charge Current Limit (0.1A)
+h35111_1.u   = 1000       # Battery Charge Current Limit (0.1A)
 h35112_1.u   = 1000       # Battery Discharge Current Limit (0.1A)
 # Read 36000_2.2b 
 h36000_1.b   = 0b0000000000000000 # faults?
@@ -381,11 +381,11 @@ h37000_1.u   = 1          # always 1
 h37001_1.u   = 0          # always 0
 h37002_1.u   = 0          # always 0
 h37003_1.u   = 0          # always 0
-h37004_1.i   = -200       # AC Power (W)
-h37005_1.u   = 95         # SOC (%)
-h37006_1.u   = 138        # a temperature? (0.1°C)
-h37007_1.u   = 3346       # Max Cell Voltage (mV)
-h37008_1.u   = 3344       # Min Cell Voltage (mV)
+h37004_1.i   = 58         # AC Power (W)
+h37005_1.u   = 83         # SOC (%)
+h37006_1.u   = 157        # a temperature? (0.1°C)
+h37007_1.u   = 3312       # Max Cell Voltage (mV)
+h37008_1.u   = 3309       # Min Cell Voltage (mV)
 h37009_1.u   = 0          # always 0
 h37010_1.u   = 0          # always 0
 h37011_1.u   = 0          # always 0

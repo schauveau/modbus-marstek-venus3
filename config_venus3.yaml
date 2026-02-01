@@ -179,14 +179,14 @@ info:
     h34000_1.u: 'Battery Voltage (0.01V)'
     h34001_1.i: 'Signed Battery Current (0.1A) NOT SURE!!!!'
     h34002_1.u: 'SOC (0.1%)'
-    h34003_1.u: 'unknown (was 5 now 8) maybe a cycle counter'
+    h34003_1.u: 'unknown (was 5 now 8) a bat cycle counter?'
     h34004_1.u: 'always 3'
-    h34005_1.u: 'Max Cell Voltage (mV)' # same as h37006_1
-    h34006_1.u: 'Max Cell Voltage (mV)' # same as h37007_1
+    h34005_1.u: 'Max Cell Voltage (mV)' # same as h37007_1
+    h34006_1.u: 'Min Cell Voltage (mV)' # same as h37008_1
     h34007_1.u: 'always 0?'
     h34008_1.u: 'always 0?'
     h34009_1.u: 'always 0?'
-    h34010_1.u: 'a historical min temperature? (0.1°C) [last 106]'
+    h34010_1.u: 'always 106? The BMS version?'
     h34011_1.u: 'a temperature? (0.1°C)'
     h34012_1.u: 'a temperature? (0.1°C)'
     h34013_1.u: 'Max Cell temperature? (0.1°C)' # same as h35010_1
