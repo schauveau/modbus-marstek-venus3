@@ -1,0 +1,496 @@
+===== HA MODBUS STOP VENUS =====
+### python3 /home/chauveau/git/modbus-marstek-venus3/modbus.py --config config_venus3.yaml monitor -c 1 -G @all
+# Read 30000_8.ui4uii 
+h30000_1.u   = 532        # Battery Voltage (0.1V)
+h30001_1.i   = 138        # Signed Battery Power (W)
+h30002_1.u   = 196        # Temperature? (0.1°C)
+h30003_1.u   = 207        # Temperature? (0.1°C)
+h30004_1.u   = 2325       # AC Voltage (0.1V)
+h30005_1.u   = 8          # Backup AC Voltage (0.1V)
+h30006_1.i   = -175       # Signed AC Power (W)
+h30007_1.i   = 0          # Signed Backup Power (W)
+# Read 30010_1.1u 
+h30010_1.u   = 0          # always 0?
+# Read 30020_21.21u 
+h30020_1.u   = 0          # always 0?
+h30021_1.u   = 0          # always 0?
+h30022_1.u   = 0          # always 0?
+h30023_1.u   = 0          # always 0?
+h30024_1.u   = 0          # always 0?
+h30025_1.u   = 0          # always 0?
+h30026_1.u   = 0          # always 0?
+h30027_1.u   = 0          # always 0?
+h30028_1.u   = 0          # always 0?
+h30029_1.u   = 0          # always 0?
+h30030_1.u   = 0          # always 0?
+h30031_1.u   = 0          # always 0?
+h30032_1.u   = 0          # always 0?
+h30033_1.u   = 0          # always 0?
+h30034_1.u   = 0          # always 0?
+h30035_1.u   = 0          # always 0?
+h30036_1.u   = 0          # always 0?
+h30037_1.u   = 0          # always 0?
+h30038_1.u   = 0          # always 0?
+h30039_1.u   = 0          # always 0?
+h30040_1.u   = 0          # always 0?
+# Read 30100_11.uiuuuuuuuuu 
+h30100_1.u   = 5351       # Battery Voltage (0.01V)
+h30101_1.i   = 26         # Battery Current (0.1A)
+h30102_1.u   = 3346       # Cell Voltage? (mV)
+h30103_1.u   = 3344       # Cell Voltage? (mV)
+h30104_1.u   = 1380       # a temperature? (0.01°C)
+h30105_1.u   = 1280       # a temperature? (0.01°C)
+h30106_1.u   = 1          # always 1?
+h30107_1.u   = 210        # Temperature? (0.1°C)
+h30108_1.u   = 181        # Temperature? (0.1°C)
+h30109_1.u   = 0          # always 0?
+h30110_1.u   = 0          # always 0?
+# Read 30200_6.6u 
+h30200_1.u   = 146        # EMS Version (146)
+h30201_1.u   = 18         # EMS Version minor? (18)
+h30202_1.u   = 116        # VNS Version (116)
+h30203_1.u   = 106        # VNS Version minor? (106)
+h30204_1.u   = 106        # BMS Version (106)
+h30205_1.u   = 0          # BMS Version minor? (0)
+# Read 30210_5.5u 
+h30210_1.u   = 3          # always 3?
+h30211_1.u   = 0          # always 0?
+h30212_1.u   = 5          # always 5?
+h30213_1.u   = 0          # always 0?
+h30214_1.u   = 0          # always 0?
+# Read 30300_10.4u6s 
+h30300_1.u   = 1          # WiFi state
+h30301_1.u   = 3          # Bluetooth state
+h30302_1.u   = 1          # Cloud state
+h30303_1.u   = 39         # WiFi signal trength (-1dBm)
+h30304_6.s   = 'BC2A33601FF9' # MAC of Bluetooth?
+# Read 30350_6.6s 
+h30350_6.s   = '202409090159' # COM Module Version
+# Read 30400_4.4u 
+h30400_1.u   = 49320      # always 49320
+h30401_1.u   = 288        # always 288
+h30402_1.u   = 49320      # always 49320
+h30403_1.u   = 257        # always 257
+# Read 31000_10.4sxuuuuu 
+h31000_4.s   = 'VNSE3-0'  # Model Name
+h31004_1.x   = 0x0607     # always 0x0607
+h31005_1.u   = 0          # always 0?
+h31006_1.u   = 0          # always 0?
+h31007_1.u   = 0          # always 0?
+h31008_1.u   = 0          # always 0?
+h31009_1.u   = 0          # always 0?
+# Read 32100_15.uxIu 
+h32100_1.u   = 5351       # Battery voltage (0.1V) ?
+h32101_1.x   = 0x0002     # unknown: idle=0x0000 discharge=0x00?? charge=0x99??
+h32102_2.I   = 0          # Battery power? No! always 0?
+h32104_1.u   = 95         # Soc (%)
+h32105_1.u   = 5120       # Total Energy (Wh)
+h32106_1.u   = 500        # always 1000?
+h32107_1.u   = 1000       # always 1000?
+h32108_1.u   = 138        # a temperature (0.1°C)?
+h32109_1.u   = 1          # always 1?
+h32110_1.u   = 1          # always 1?
+h32111_1.u   = 1          # always 1?
+h32112_1.u   = 0          # always 0?
+h32113_1.u   = 0          # always 0?
+h32114_1.u   = 0          # always 0?
+# Read 32200_5.uuIu 
+h32200_1.u   = 2325       # AC Voltage? (0.1V)
+h32201_1.u   = 2325       # AC Voltage? (0.1V)
+h32202_2.I   = -186       # AC Power (W)
+h32204_1.u   = 500        # AC Frequency (0.1Hz)
+# Read 32300_3.3u 
+h32300_1.u   = 10         # Backup AC Voltage (0.1V)
+h32301_1.u   = 10         # Backup AC Voltage (0.1V)
+h32302_1.u   = 0          # Backup Power (TO BE VERIFIED)
+# Read 33000_12.6U 
+h33000_2.U   = 4179       # Total charging energy (1/100 kWh)
+h33002_2.U   = 2735       # Total discharging energy (1/100 kWh)
+h33004_2.U   = 180        # Daily charging energy (1/100 kWh)
+h33006_2.U   = 29         # Daily discharging energy (1/100 kWh)
+h33008_2.U   = 180        # Monthly charging energy (1/100 kWh)
+h33010_2.U   = 29         # Monthly dicharging energy (1/100 kWh)
+# Read 34000_34.ui32u 
+h34000_1.u   = 5352       # Battery Voltage (0.01V)
+h34001_1.i   = 29         # Signed Battery Current (0.1A) NOT SURE!!!!
+h34002_1.u   = 953        # SOC (0.1%)
+h34003_1.u   = 8          # unknown (was 5 now 8) maybe a cycle counter
+h34004_1.u   = 3          # always 3
+h34005_1.u   = 3347       # Max Cell Voltage (mV)
+h34006_1.u   = 3343       # Max Cell Voltage (mV)
+h34007_1.u   = 0          # always 0?
+h34008_1.u   = 0          # always 0?
+h34009_1.u   = 0          # always 0?
+h34010_1.u   = 106        # a historical min temperature? (0.1°C) [last 106]
+h34011_1.u   = 210        # a temperature? (0.1°C)
+h34012_1.u   = 177        # a temperature? (0.1°C)
+h34013_1.u   = 139        # Max Cell temperature? (0.1°C)
+h34014_1.u   = 129        # Min Cell temperature? (0.1°C)
+h34015_1.u   = 129        # a temperature? (0.1°C)
+h34016_1.u   = 136        # a temperature? (0.1°C)
+h34017_1.u   = 1          # always 1?
+h34018_1.u   = 3346       # Cell Voltage 1 (mV)
+h34019_1.u   = 3343       # Cell Voltage 2 (mV)
+h34020_1.u   = 3345       # Cell Voltage 3 (mV)
+h34021_1.u   = 3347       # Cell Voltage 4 (mV)
+h34022_1.u   = 3345       # Cell Voltage 5 (mV)
+h34023_1.u   = 3345       # Cell Voltage 6 (mV)
+h34024_1.u   = 3345       # Cell Voltage 7 (mV)
+h34025_1.u   = 3346       # Cell Voltage 8 (mV)
+h34026_1.u   = 3345       # Cell Voltage 9 (mV)
+h34027_1.u   = 3347       # Cell Voltage 10 (mV)
+h34028_1.u   = 3346       # Cell Voltage 11 (mV)
+h34029_1.u   = 3345       # Cell Voltage 12 (mV)
+h34030_1.u   = 3345       # Cell Voltage 13 (mV)
+h34031_1.u   = 3346       # Cell Voltage 14 (mV)
+h34032_1.u   = 3345       # Cell Voltage 15 (mV)
+h34033_1.u   = 3344       # Cell Voltage 16 (mV)
+# Read 34100_34.34u 
+h34100_1.u   = 0         
+h34101_1.u   = 0         
+h34102_1.u   = 0         
+h34103_1.u   = 0         
+h34104_1.u   = 0         
+h34105_1.u   = 0         
+h34106_1.u   = 0         
+h34107_1.u   = 0         
+h34108_1.u   = 0         
+h34109_1.u   = 0         
+h34110_1.u   = 0         
+h34111_1.u   = 0         
+h34112_1.u   = 0         
+h34113_1.u   = 0         
+h34114_1.u   = 0         
+h34115_1.u   = 0         
+h34116_1.u   = 0         
+h34117_1.u   = 0         
+h34118_1.u   = 0         
+h34119_1.u   = 0         
+h34120_1.u   = 0         
+h34121_1.u   = 0         
+h34122_1.u   = 0         
+h34123_1.u   = 0         
+h34124_1.u   = 0         
+h34125_1.u   = 0         
+h34126_1.u   = 0         
+h34127_1.u   = 0         
+h34128_1.u   = 0         
+h34129_1.u   = 0         
+h34130_1.u   = 0         
+h34131_1.u   = 0         
+h34132_1.u   = 0         
+h34133_1.u   = 0         
+# Read 34200_34.34u 
+h34200_1.u   = 0         
+h34201_1.u   = 0         
+h34202_1.u   = 0         
+h34203_1.u   = 0         
+h34204_1.u   = 0         
+h34205_1.u   = 0         
+h34206_1.u   = 0         
+h34207_1.u   = 0         
+h34208_1.u   = 0         
+h34209_1.u   = 0         
+h34210_1.u   = 0         
+h34211_1.u   = 0         
+h34212_1.u   = 0         
+h34213_1.u   = 0         
+h34214_1.u   = 0         
+h34215_1.u   = 0         
+h34216_1.u   = 0         
+h34217_1.u   = 0         
+h34218_1.u   = 0         
+h34219_1.u   = 0         
+h34220_1.u   = 0         
+h34221_1.u   = 0         
+h34222_1.u   = 0         
+h34223_1.u   = 0         
+h34224_1.u   = 0         
+h34225_1.u   = 0         
+h34226_1.u   = 0         
+h34227_1.u   = 0         
+h34228_1.u   = 0         
+h34229_1.u   = 0         
+h34230_1.u   = 0         
+h34231_1.u   = 0         
+h34232_1.u   = 0         
+h34233_1.u   = 0         
+# Read 34300_34.34u 
+h34300_1.u   = 0         
+h34301_1.u   = 0         
+h34302_1.u   = 0         
+h34303_1.u   = 0         
+h34304_1.u   = 0         
+h34305_1.u   = 0         
+h34306_1.u   = 0         
+h34307_1.u   = 0         
+h34308_1.u   = 0         
+h34309_1.u   = 0         
+h34310_1.u   = 0         
+h34311_1.u   = 0         
+h34312_1.u   = 0         
+h34313_1.u   = 0         
+h34314_1.u   = 0         
+h34315_1.u   = 0         
+h34316_1.u   = 0         
+h34317_1.u   = 0         
+h34318_1.u   = 0         
+h34319_1.u   = 0         
+h34320_1.u   = 0         
+h34321_1.u   = 0         
+h34322_1.u   = 0         
+h34323_1.u   = 0         
+h34324_1.u   = 0         
+h34325_1.u   = 0         
+h34326_1.u   = 0         
+h34327_1.u   = 0         
+h34328_1.u   = 0         
+h34329_1.u   = 0         
+h34330_1.u   = 0         
+h34331_1.u   = 0         
+h34332_1.u   = 0         
+h34333_1.u   = 0         
+# Read 34400_34.34u 
+h34400_1.u   = 0         
+h34401_1.u   = 0         
+h34402_1.u   = 0         
+h34403_1.u   = 0         
+h34404_1.u   = 0         
+h34405_1.u   = 0         
+h34406_1.u   = 0         
+h34407_1.u   = 0         
+h34408_1.u   = 0         
+h34409_1.u   = 0         
+h34410_1.u   = 0         
+h34411_1.u   = 0         
+h34412_1.u   = 0         
+h34413_1.u   = 0         
+h34414_1.u   = 0         
+h34415_1.u   = 0         
+h34416_1.u   = 0         
+h34417_1.u   = 0         
+h34418_1.u   = 0         
+h34419_1.u   = 0         
+h34420_1.u   = 0         
+h34421_1.u   = 0         
+h34422_1.u   = 0         
+h34423_1.u   = 0         
+h34424_1.u   = 0         
+h34425_1.u   = 0         
+h34426_1.u   = 0         
+h34427_1.u   = 0         
+h34428_1.u   = 0         
+h34429_1.u   = 0         
+h34430_1.u   = 0         
+h34431_1.u   = 0         
+h34432_1.u   = 0         
+h34433_1.u   = 0         
+# Read 34500_34.34u 
+h34500_1.u   = 0         
+h34501_1.u   = 0         
+h34502_1.u   = 0         
+h34503_1.u   = 0         
+h34504_1.u   = 0         
+h34505_1.u   = 0         
+h34506_1.u   = 0         
+h34507_1.u   = 0         
+h34508_1.u   = 0         
+h34509_1.u   = 0         
+h34510_1.u   = 0         
+h34511_1.u   = 0         
+h34512_1.u   = 0         
+h34513_1.u   = 0         
+h34514_1.u   = 0         
+h34515_1.u   = 0         
+h34516_1.u   = 0         
+h34517_1.u   = 0         
+h34518_1.u   = 0         
+h34519_1.u   = 0         
+h34520_1.u   = 0         
+h34521_1.u   = 0         
+h34522_1.u   = 0         
+h34523_1.u   = 0         
+h34524_1.u   = 0         
+h34525_1.u   = 0         
+h34526_1.u   = 0         
+h34527_1.u   = 0         
+h34528_1.u   = 0         
+h34529_1.u   = 0         
+h34530_1.u   = 0         
+h34531_1.u   = 0         
+h34532_1.u   = 0         
+h34533_1.u   = 0         
+# Read 34600_34.34u 
+h34600_1.u   = 0         
+h34601_1.u   = 0         
+h34602_1.u   = 0         
+h34603_1.u   = 0         
+h34604_1.u   = 0         
+h34605_1.u   = 0         
+h34606_1.u   = 0         
+h34607_1.u   = 0         
+h34608_1.u   = 0         
+h34609_1.u   = 0         
+h34610_1.u   = 0         
+h34611_1.u   = 0         
+h34612_1.u   = 0         
+h34613_1.u   = 0         
+h34614_1.u   = 0         
+h34615_1.u   = 0         
+h34616_1.u   = 0         
+h34617_1.u   = 0         
+h34618_1.u   = 0         
+h34619_1.u   = 0         
+h34620_1.u   = 0         
+h34621_1.u   = 0         
+h34622_1.u   = 0         
+h34623_1.u   = 0         
+h34624_1.u   = 0         
+h34625_1.u   = 0         
+h34626_1.u   = 0         
+h34627_1.u   = 0         
+h34628_1.u   = 0         
+h34629_1.u   = 0         
+h34630_1.u   = 0         
+h34631_1.u   = 0         
+h34632_1.u   = 0         
+h34633_1.u   = 0         
+# Read 35000_3.3u 
+h35000_1.u   = 196        # Internal temperature (0.1°C)
+h35001_1.u   = 207        # MOS1 temperature (0.1°C)
+h35002_1.u   = 207        # MOS2 temperature (0.1°C)
+# Read 35010_2.2u 
+h35010_1.u   = 139        # Max Cell temperature (0.1°C) 
+h35011_1.u   = 129        # Min Cell temperature (0.1°C) 
+# Read 35100_1.1u 
+h35100_1.u   = 2          # Inverter State
+# Read 35110_3.3u 
+h35110_1.u   = 576        # Battery Charge Voltage Limit (0.1V)
+h35111_1.u   = 500        # Battery Charge Current Limit (0.1A)
+h35112_1.u   = 1000       # Battery Discharge Current Limit (0.1A)
+# Read 36000_2.2b 
+h36000_1.b   = 0b0000000000000000 # faults?
+h36001_1.b   = 0b0000000000000000 # faults?
+# Read 36100_4.4b 
+h36100_1.b   = 0b0000000000000000 # faults
+h36101_1.b   = 0b0000000000000000 # faults
+h36102_1.b   = 0b0000000000000000 # faults
+h36103_1.b   = 0b0000000000000000 # faults
+# Read 37000_25.4ui20u 
+h37000_1.u   = 1          # always 1
+h37001_1.u   = 0          # always 0
+h37002_1.u   = 0          # always 0
+h37003_1.u   = 0          # always 0
+h37004_1.i   = -200       # AC Power (W)
+h37005_1.u   = 95         # SOC (%)
+h37006_1.u   = 138        # a temperature? (0.1°C)
+h37007_1.u   = 3346       # Max Cell Voltage (mV)
+h37008_1.u   = 3344       # Min Cell Voltage (mV)
+h37009_1.u   = 0          # always 0
+h37010_1.u   = 0          # always 0
+h37011_1.u   = 0          # always 0
+h37012_1.u   = 106        # always 106
+h37013_1.u   = 0          # always 0
+h37014_1.u   = 0          # 0 or 128 when no GRID AC
+h37015_1.u   = 0          # always 0
+h37016_1.u   = 0          # always 0
+h37017_1.u   = 0          # always 0
+h37018_1.u   = 0          # always 0
+h37019_1.u   = 0          # always 0
+h37020_1.u   = 0          # always 0
+h37021_1.u   = 0          # always 0
+h37022_1.u   = 0          # always 0
+h37023_1.u   = 0          # always 0
+h37024_1.u   = 0          # always 0
+# Read 41000_1.1u 
+h41000_1.u   = 0          # zero. Write 0x55aa for device restart
+# Read 41100_1.1u 
+h41100_1.u   = 1          # always 1 (modbus address?)
+# Read 41200_1.1u 
+h41200_1.u   = 1          # Backup output (0=On 1=Off)
+# Read 41500_16.16s 
+h41500_16.s  = 'chauveau-avit' # WiFi SSID
+# Read 41600_32.32u 
+h41600_1.u   = 0          # always 0
+h41601_1.u   = 0          # always 0
+h41602_1.u   = 0          # always 0
+h41603_1.u   = 0          # always 0
+h41604_1.u   = 0          # always 0
+h41605_1.u   = 0          # always 0
+h41606_1.u   = 0          # always 0
+h41607_1.u   = 0          # always 0
+h41608_1.u   = 0          # always 0
+h41609_1.u   = 0          # always 0
+h41610_1.u   = 0          # always 0
+h41611_1.u   = 0          # always 0
+h41612_1.u   = 0          # always 0
+h41613_1.u   = 0          # always 0
+h41614_1.u   = 0          # always 0
+h41615_1.u   = 0          # always 0
+h41616_1.u   = 0          # always 0
+h41617_1.u   = 0          # always 0
+h41618_1.u   = 0          # always 0
+h41619_1.u   = 0          # always 0
+h41620_1.u   = 0          # always 0
+h41621_1.u   = 0          # always 0
+h41622_1.u   = 0          # always 0
+h41623_1.u   = 0          # always 0
+h41624_1.u   = 0          # always 0
+h41625_1.u   = 0          # always 0
+h41626_1.u   = 0          # always 0
+h41627_1.u   = 0          # always 0
+h41628_1.u   = 0          # always 0
+h41629_1.u   = 0          # always 0
+h41630_1.u   = 0          # always 0
+h41631_1.u   = 0          # always 0
+# Read 42000_1.1x 
+h42000_1.x   = 0x55BB     # Forced Mode 0x55AA=On 0x55BB=Off
+# Read 42010_2.2u 
+h42010_1.u   = 0          # Forced Action 0=stop 1=charge 2=discharge
+h42011_1.u   = 36         # Forced Charge/Discharge to SOC (%)
+# Read 42020_2.2u 
+h42020_1.u   = 666        # Forced Charging Power (W)
+h42021_1.u   = 333        # Forced Discharging Power (W)
+# Read 43000_1.1u 
+h43000_1.u   = 0          # Working Mode (0=Manual 1=Auto/Anti-Feed 2=AI/Trade)
+# Read 43100_30.i 
+h43100_1.i   = 127        # Schedule 1: Days
+h43101_1.i   = 0          # Schedule 1: Start
+h43102_1.i   = 430        # Schedule 1: End
+h43103_1.i   = -500       # Schedule 1: Power
+h43104_1.i   = 1          # Schedule 1: Enabled
+h43105_1.i   = 127        # Schedule 2: Days
+h43106_1.i   = 453        # Schedule 2: Start
+h43107_1.i   = 2052       # Schedule 2: End
+h43108_1.i   = -1         # Schedule 2: Power
+h43109_1.i   = 1          # Schedule 2: Enabled
+h43110_1.i   = 64         # Schedule 3: Days
+h43111_1.i   = 0          # Schedule 3: Start
+h43112_1.i   = 0          # Schedule 3: End
+h43113_1.i   = -1         # Schedule 3: Power
+h43114_1.i   = 0          # Schedule 3: Enabled
+h43115_1.i   = 1          # Schedule 4: Days
+h43116_1.i   = 0          # Schedule 4: Start
+h43117_1.i   = 0          # Schedule 4: End
+h43118_1.i   = -1         # Schedule 4: Power
+h43119_1.i   = 0          # Schedule 4: Enabled
+h43120_1.i   = 2          # Schedule 5: Days
+h43121_1.i   = 0          # Schedule 5: Start
+h43122_1.i   = 0          # Schedule 5: End
+h43123_1.i   = -1         # Schedule 5: Power
+h43124_1.i   = 0          # Schedule 5: Enabled
+h43125_1.i   = 12         # Schedule 6: Days
+h43126_1.i   = 0          # Schedule 6: Start
+h43127_1.i   = 0          # Schedule 6: End
+h43128_1.i   = -1         # Schedule 6: Power
+h43129_1.i   = 0          # Schedule 6: Enabled
+# Read 44002_2.2u 
+h44002_1.u   = 1200       # Max Charge Power (W)
+h44003_1.u   = 2000       # Max Discharge Power (W)
+# Read 45603_3.3u 
+h45603_1.u   = 9266       # always 9266?
+h45604_1.u   = 18791      # always 18791?
+h45605_1.u   = 74         # always 74?
+# Read 47400_1.1x 
+h47400_1.x   = 0xAABB     # always 0xAABB?
+===== HA MODBUS RELOAD =====
