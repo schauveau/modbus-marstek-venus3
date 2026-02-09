@@ -17,7 +17,6 @@ info:
     h30002_1.u: 'Temperature? (0.1°C)'
     h30003_1.u: 'Temperature? (0.1°C)'
     h30004_1.u: 'AC Voltage (0.1V)'
-    
     h30005_1.u: 'Backup AC Voltage (0.1V)' # Small but not zero when backup is disabled    
     h30006_1.i: 'Signed AC Power (W)'
     h30007_1.i: 'Signed Backup Power (W)' # Probably signed 
@@ -186,7 +185,7 @@ info:
     h34007_1.u: 'always 0?'
     h34008_1.u: 'always 0?'
     h34009_1.u: 'always 0?'
-    h34010_1.u: 'always 106? The BMS version?'
+    h34010_1.u: 'always 106? A copy of h30203 or h30204?'
     h34011_1.u: 'a temperature? (0.1°C)'
     h34012_1.u: 'a temperature? (0.1°C)'
     h34013_1.u: 'Max Cell temperature? (0.1°C)' # same as h35010_1
@@ -307,7 +306,7 @@ info:
     h37009_1.u: 'always 0'
     h37010_1.u: 'always 0'
     h37011_1.u: 'always 0'
-    h37012_1.u: 'always 106'
+    h37012_1.u: 'always 106. A copy of h30203 or h30204?'
     h37013_1.u: 'always 0'
     h37014_1.u: '0 or 128 when no GRID AC' # a status flag?  
     h37015_1.u: 'always 0'
@@ -330,7 +329,12 @@ info:
   #  - Is that a writable-only register?
   #  - Documented as 'factory reset' when writing 0x55aa 
   #  - UNTESTED
-  
+
+  # UNTESTED
+  # A suppose that this is the 'device_id' in pymodbus client calls.
+  # Can it be safely changed? 
+  # I noticed that the Venus 3 does not care about the 'device_id'
+  # passed by the client. That may only be relevant for RS485. 
   h41100_1.1u:
     alias: '@h41100'
     append: [ '@all', '@nonzero' ]
@@ -338,7 +342,7 @@ info:
 
   h41200_1.1u:
     alias: '@h41200'
-    append: [ '@all', '@nonzero' ]
+    append: [ '@all', '@nonzero' , '@ctrl' ]
     h41200_1.u: 'Backup output (0=On 1=Off)'
 
   h41500_16.16s:
@@ -387,13 +391,13 @@ info:
 
   h42000_1.1x:
     alias: '@h42000'
-    append: [ '@all', '@nonzero' ]
+    append: [ '@all', '@nonzero' , '@ctrl' ]
     # Write 0x55AA to enable but must use h43000_1 to disable  
     h42000_1.x: 'Forced Mode 0x55AA=On 0x55BB=Off'
 
   h42010_2.2u:
     alias: '@h42010'
-    append: [ '@all', '@nonzero' ]
+    append: [ '@all', '@nonzero' , '@ctrl' ]
     h42010_1.u: 'Forced Action 0=stop 1=charge 2=discharge'
     # Charge/Discharge to SOC at max allowed power
     # Use ... and ...  to control power.
@@ -402,15 +406,15 @@ info:
 
   h42020_2.2u:
     alias: '@h42020'
-    append: [ '@all', '@nonzero' ]
+    append: [ '@all', '@nonzero' , '@ctrl'  ]
     h42020_1.u: 'Forced Charging Power (W)'
     h42021_1.u: 'Forced Discharging Power (W)'
 
   h43000_1.1u:
     alias: '@h43000'
-    append: [ '@all', '@nonzero' ]
+    append: [ '@all', '@nonzero' , '@ctrl'  ]
     # Read 0 for Manual or 1 for any other mode including 'Forced'
-    # Write to disable Forced mode (see h42000_1)
+    # Any write here will also disable Forced mode (see h42000_1)
     h43000_1.u: 'Working Mode (0=Manual 1=Auto/Anti-Feed 2=AI/Trade)'
 
   # 6 manual schedules of 5 registers
@@ -422,8 +426,8 @@ info:
   #
   # Remarks:
   #   - unused schedules are filled with zeros.
-  #   - only 6 schedules via modbus but the mobile app
-  #     can do 9 and the OpenApi document 'supports 0-9' so
+  #   - only 6 schedules via modbus but the Marstek mobile app
+  #     can do 9 and the OpenApi document says 'supports 0-9' so
   #     a total of 10 !!!!!!
   #
   h43100_30.i:
@@ -462,7 +466,7 @@ info:
 
   h44002_2.2u:
     alias: '@h44002'
-    append: [ '@all', '@nonzero' ]
+    append: [ '@all', '@nonzero' , '@ctrl'   ]
     # Max Charge and Discharge Power
     #   -> Probably applicable to all charge/discharge modes
     #   -> Used by Charge/Discharge to SOC (see h42011_1.u)
@@ -471,15 +475,15 @@ info:
 
   h45603_3.3u:
     alias: '@h45604'
-    append: [ '@all', '@nonzero' ]
+    append: [ '@all', '@nonzero' , '@ctrl']
     h45603_1.u: 'always 9266?'
     h45604_1.u: 'always 18791?'
     h45605_1.u: 'always 74?'
 
   h47400_1.1x:
     alias: '@h47400'
-    append: [ '@all', '@nonzero' ]
-    h47400_1.x: 'always 0xAABB?' # A switch like in h42000? 
+    append: [ '@all', '@nonzero' , '@ctrl' ]
+    h47400_1.x: 'always 0xAABB?' # A switch like Forced Mode (h42000)? 
 
 alias:
    '@all': [ ]  # ...

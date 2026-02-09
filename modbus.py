@@ -101,6 +101,35 @@ def rr_to_I(hi,lo):
 def rr_to_X(hi,lo):
     return "0x{:08X}{:08X}".format(hi,lo)
 
+def r5_to_marstek_schedule(days, start, end, power, state):
+    days = "{:07b}".format(days)[::-1].replace('0','-').replace('1','*')
+    
+    start_h = start//100
+    start_m = start%100
+    end_h = end//100
+    end_m = end%100
+
+    power = ctypes.c_int16(power).value
+    if 100 <= power <= 2500 :
+        mode = f"Discharging {power}W"
+    elif -2500 <= power <= -100 :
+        mode = f"Charging {-power}W"
+    elif power==-1:
+        mode = "Auto"
+    elif power==0:
+        mode = "Unused"
+    else:
+        mode = f"Unknown({power})"
+
+    if state==1:
+        enabled = True
+    elif state==0:
+        enabled = False
+    else:
+        enabled = f"Unknown{state}"
+    
+    return f"SCHEDULE [{days}] {start_h:02d}:{start_m:02d} {end_h:02d}:{end_m:02d} {mode} {enabled}"
+    
 
 #
 # Describe the supported formatters to display the register values.
@@ -126,6 +155,7 @@ FORMATTERS = {
     'I': ( False, 2 , rr_to_I ),
     'U': ( False, 2 , rr_to_U ),
     'X': ( False, 2 , rr_to_X ),
+    'M': ( False, 5 , r5_to_marstek_schedule ),
 }
 
 
@@ -161,7 +191,7 @@ class ModbusSpec:
 
     def name(self):
         return f"{self.start}_{self.count}.{self.fmt}" 
-    
+           
     # Parse a register range specification into a ModbusSpec object
     @staticmethod
     def parse(spec):
@@ -354,7 +384,7 @@ def modbus_connect(config):
     
 
 def read_holding_registers(client, reg, count):
-    return client.read_holding_registers(reg, count=count)      
+    return client.read_holding_registers(reg, count=count)
     
 
 def modbus_exception_name(code):
@@ -469,9 +499,9 @@ def monitor(client,
                 if show:
                     comment = f' # {COMMENTS[name]}' if (name in COMMENTS) else ''
                     if show_previous and diff and i>0:
-                        print("{}{:12} = from {} to {:8}{}".format(ts,name,previous,value,comment) )
+                        print("{}{:12} = from {} to {:8}{}".format(ts,name,previous,value,comment) , flush=True)
                     else:
-                        print("{}{:12} = {:10}{}".format(ts,name,value,comment) )
+                        print("{}{:12} = {:10}{}".format(ts,name,value,comment) , flush=True)
 
                 previous_values[name] = value
                 
@@ -502,8 +532,79 @@ def action_read(args, config):
     client.close()
     
 
-    client.close()
 
+def add_command_write(subparsers):
+    sp = subparsers.add_parser('write', help='write registers')    
+    sp.add_argument('write_list', metavar='SPEC=VALUE', nargs='+', help='')
+    sp.add_argument('-S', '--show-spec', dest='write_show_spec', action='store_true')
+
+def action_write(args, config):
+    count  = 1
+    show_spec = args.write_show_spec
+
+    client = modbus_connect(config)
+    
+    for assign in args.write_list:
+        try:
+            [dest,value_str] = assign.split('=',1)
+            value = int(value_str,0)
+            dest=dest.strip()
+        except ValueError:
+            print(f"Error: Malformed assignment '{assign}'")
+            sys.exit(1)
+
+        # Expand 'dest' and make sure that it describes a single
+        # target of size 1 or 2.  
+        speclist = expand_specifications( [dest] , ALIASES)
+        if len(speclist)==0:
+            print(f"Error: Empty assignment target '{dest}'")
+            sys.exit(1)
+        elif len(speclist)>1:
+            print(f"Error: Too many assignment targets in '{dest}'")
+            sys.exit(1)
+        target = ModbusSpec.parse(speclist[0])
+
+        if target.count not in [1,2]:
+            print(f"Error: Illegal assignment target size in '{dest}'. Got {target.count} but need 1 or 2")
+            sys.exit(1)
+
+        # TODO: implement arbitrary assignment size? 
+        if target.count == 1:
+            print("WRITE",target.start, [value] )
+            ans = client.write_registers(address=target.start, values=[value])
+            print(ans)
+        elif target.count == 2:
+            hi = (value>>16) & 0xFFFF
+            lo = value & 0xFFFF
+            #client.write_registers(address=target.start,values=[hi,lo])
+        else:
+            print(f"Error: Illegal assignment target size ({target.count}) in '{dest}'")
+            sys.exit(1)
+
+
+        
+        #ranges = ModbusSpec.parse(speclist[0])
+        #if len(ranges)!=1 :
+        #    print(f"Error: Invalid assignment target '{dest}'")
+        #    sys.exit(1)        
+        #print( ranges[0].elems )
+        #if len( ranges[0].elems) != 1 :
+        #    print(f"Error: Multiple assignment targets specified by '{dest}'")
+        #    sys.exit(1)
+        #if len( ranges[0].elems) != 1 :
+        #    print(f"Error: Multiple assignment targets specified by '{dest}'")
+        #    sys.exit(1)
+        #
+        #print(ranges)
+        
+    #for rg in ranges:
+    #    print(rg)
+    
+
+    client.close()
+    
+
+    
 def add_command_monitor(subparsers):
     
     sp = subparsers.add_parser('monitor', help='Monitor registers for changes')    
@@ -794,6 +895,7 @@ def expand_specifications(specs, aliases):
                     return _rec_expand(out, aliases[spec], seen)
                 else:
                     log.error(f'Unknown alias {spec}')
+                    sys.exit(1)
             else:
                 out.append(spec)
         elif type(spec) is list:
@@ -878,6 +980,7 @@ try:
     add_command_aliases(subparsers)
     add_command_test(subparsers)
     add_command_monitor(subparsers)
+    add_command_write(subparsers)
     args = parser.parse_args()
 
     if args.command == None :
@@ -920,6 +1023,8 @@ try:
         action_monitor(args,config)
     elif args.command == 'aliases' :
         action_aliases(args,config)
+    elif args.command == 'write' :
+        action_write(args,config)
     else:
         print("Unsupported command")
         sys.exit(1)
