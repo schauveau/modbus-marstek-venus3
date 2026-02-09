@@ -1,13 +1,24 @@
 # modbus-marstek-venus3
-Tools to analyse the Marsek Venus 3 Modbus protocol  
+Tools to analyse the Marsek Venus E3 Modbus protocol  
 
+Changelog:
+  - 09-02-2026 : Upgrade my Venus E3 from 146.116.106 to 147.117.112
+    A new feature in the Marstek app is to toggle the front led panel.
+
+
+## Venus E3 firmware changes
+
+### Venus E3 147.117.112
+
+- h37023 is now -1 vs 0 in 146.116.106 
+  
 ## Introduction
 
-This directory contains my analysis of the Marstek Venus 3 Modbus protocol and some tools I developped for that purpose: 
+This directory contains my analysis of the Marstek Venus E3 Modbus protocol and some tools I developped for that purpose: 
 
 - `modbus.py` a Python3 script to scan and read modbus registers.
 
-## ModbusTCP on the Marstek Venus 3
+## ModbusTCP on the Marstek Venus E3
 
 - Listen on standard port 502 on the RJ45 interface but not the WiFi.
 - Can only open one connection
@@ -20,7 +31,7 @@ This directory contains my analysis of the Marstek Venus 3 Modbus protocol and s
   - Probably hardcoded in the Venus firmware!
   - so it can be a lot faster to read groups when possible
 - Reading the 2nd word of some dual registers (32bit) can cause a disconnection for a few seconds (probably a crash and an restart in the Marstek firmware).   
-- The Modbus exception responses produced by the Venus 3 are malformed:
+- The Modbus exception responses produced by the Venus E3 are malformed:
   - Packet length is 9 and the 6th byte containing the size of the remaining payload is incorrectly set to 4 instead of 3.
   - That 'bug' can introduce long delays when reading at an illegal address.
   - This is fixed in `modbus.py` with a packet filter (see `marstek_packet_correction`)
@@ -53,7 +64,7 @@ python3 /path/to/modbus.py --help
 
 ### Test the Modbus connection with the `test` command
 
-The Venus 3 listen on port 502 of its LAN interface (not WiFi) and only allows one connection. Make sure that no other client is running.
+The Venus E3 listen on port 502 of its LAN interface (not WiFi) and only allows one connection. Make sure that no other client is running.
 
 ```
 (shell) python3 modbus.py --host  192.168.0.99 test
@@ -65,13 +76,13 @@ OK: Connected
 The valid range for modbus addresses is 0..65535 (0xFFFF) so a full scan requires that many request.
 
 
-The Marstek Venus 3 is limited to one request every 150ms so a full scan would take `65535 * 0.150ms = 9830 s = 2h43m50s`. Fortunately, Marstek appears to only be using the range 30000-39999 for read-only registers and 40000-49999 for read-write registers and most groups of consecutive registers start at a multiple of 10.
+The Marstek Venus E3 is limited to one request every 150ms so a full scan would take `65535 * 0.150ms = 9830 s = 2h43m50s`. Fortunately, Marstek appears to only be using the range 30000-39999 for read-only registers and 40000-49999 for read-write registers and most groups of consecutive registers start at a multiple of 10.
 
-For the Venus 3, the only 2 known exceptions are at
+For the Venus E3, the only 2 known exceptions are at
   - address 44002 of length 2
   - address 45603 of length 3
 
-A full scan with the command `scan 30000 50000 1` would still take 50 minutes on the Venus 3 so let's start with a small but fastest `scan 30000 32000 10` that should be completed after a few seconds
+A full scan with the command `scan 30000 50000 1` would still take 50 minutes on the Venus E3 so let's start with a small but fastest `scan 30000 32000 10` that should be completed after a few seconds
 
 ```
 (shell) python3 modbus.py --host 192.168.0.99 scan 30000 30200 10
@@ -95,7 +106,7 @@ The `--yaml` option will define an alias for each group of consecutive registers
 
 The `--yaml-all` option does the same but it will also add an `unknown` comment for each register.
 
-Reminder: On the Venus 3, the 150ms delay between modbus requests means that a full scan from 30000 to 50000 will take about 50 minutes. Using a step of 10 can speed things significantlybut can miss a few registers.   
+Reminder: On the Venus E3, the 150ms delay between modbus requests means that a full scan from 30000 to 50000 will take about 50 minutes. Using a step of 10 can speed things significantlybut can miss a few registers.   
 
 ```
 (shell) python3 modbus.py --host 192.168.0.99 scan --yaml-all 30000 50000 10 > config.yaml

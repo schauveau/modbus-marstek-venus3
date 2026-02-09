@@ -1,6 +1,30 @@
 #
-# Marstek Venus 3 firmware 146
+# Marstek Venus E3
 #
+# Observed versions (EMS.VMS.BMS)
+#  - 146.116.106
+#  - 147.117.112  (current)
+#    - No new readable register blocks
+#    - h37023 was 0 but now contains 65535 (-1)
+#      TODO: check if that could be the 800/2500W setting.
+#    - LED ON/OFF was added to the Marstek App but it has no
+#      visible effect on the modbus registers.
+#
+
+# Information that, as far as I know, are not exposed in modbus registers
+#  - LED status and control
+#  - The 800W or 2500W output limit.
+#  - If the Local API is enabled. 
+#  - The CT value (at least not when using a Shelly)
+#  - The 7th to 10th schedule entries used by Manual Mode.
+#      --> The Marstek App can write up to 9th.  
+#      --> The 10th entry is hidden in Marstek App but is used
+#          by the UPS mode. This is why entering UPS mode disables
+#          all the visible schedule entries. The hidden 10th entry 
+#          appears to be set to "charge at full power from 00:00 to 23:59"
+#      --> All 10 entries can be modified using the Local Api
+
+
 
 global:
   loglevel: INFO
@@ -69,12 +93,12 @@ info:
   h30200_6.6u:
     alias: '@h30200'
     append: [ '@all', '@nonzero' ]
-    h30200_1.u: 'EMS Version (146)'
-    h30201_1.u: 'EMS Version minor? (18)'
-    h30202_1.u: 'VNS Version (116)'
-    h30203_1.u: 'VNS Version minor? (106)'
-    h30204_1.u: 'BMS Version (106)'
-    h30205_1.u: 'BMS Version minor? (0)'
+    h30200_1.u: 'EMS Version'
+    h30201_1.u: 'always 18?'
+    h30202_1.u: 'VNS Version'
+    h30203_1.u: 'always 106?'
+    h30204_1.u: 'BMS Version'
+    h30205_1.u: 'always 0?'
 
   h30210_5.5u:
     alias: '@h30210'
@@ -105,7 +129,7 @@ info:
   h30350_6.6s:
     alias: '@h30350'
     append: [ '@all', '@nonzero' ]
-    h30350_6.s: 'COM Module Version'
+    h30350_6.s: 'COM Module Version'  # 202409090159
 
   h30400_4.4u:
     alias: '@h30400'
@@ -185,7 +209,7 @@ info:
     h34007_1.u: 'always 0?'
     h34008_1.u: 'always 0?'
     h34009_1.u: 'always 0?'
-    h34010_1.u: 'always 106? A copy of h30203 or h30204?'
+    h34010_1.u: 'BMS version' # same as h30204'
     h34011_1.u: 'a temperature? (0.1°C)'
     h34012_1.u: 'a temperature? (0.1°C)'
     h34013_1.u: 'Max Cell temperature? (0.1°C)' # same as h35010_1
@@ -242,8 +266,8 @@ info:
   h35010_2.2u:
     alias: '@h35010'
     append: [ '@all', '@nonzero' ]
-    h35010_1.u: 'Max Cell temperature (0.1°C) ' # same as h34013_1.u
-    h35011_1.u: 'Min Cell temperature (0.1°C) ' # same as h34014_1.u
+    h35010_1.u: 'Max Cell temperature (0.1°C) ' # From Duravolt. same as h34013_1.u
+    h35011_1.u: 'Min Cell temperature (0.1°C) ' # same Duravolt. same as h34014_1.u
 
   h35100_1.1u:
     alias: '@h35100'
@@ -301,14 +325,14 @@ info:
     h37004_1.i: 'AC Power (W)'  
     h37005_1.u: 'SOC (%)'
     h37006_1.u: 'a temperature? (0.1°C)'
-    h37007_1.u: 'Max Cell Voltage (mV)' # same as h34005_1
-    h37008_1.u: 'Min Cell Voltage (mV)' # same as h34006_1
+    h37007_1.u: 'Max Cell Voltage (mV)' # same as h34005
+    h37008_1.u: 'Min Cell Voltage (mV)' # same as h34006
     h37009_1.u: 'always 0'
     h37010_1.u: 'always 0'
     h37011_1.u: 'always 0'
-    h37012_1.u: 'always 106. A copy of h30203 or h30204?'
+    h37012_1.u: 'BMS version' # same as h30204
     h37013_1.u: 'always 0'
-    h37014_1.u: '0 or 128 when no GRID AC' # a status flag?  
+    h37014_1.u: '0 or 128 when no GRID AC' # some flags?  
     h37015_1.u: 'always 0'
     h37016_1.u: 'always 0'
     h37017_1.u: 'always 0'
@@ -317,7 +341,9 @@ info:
     h37020_1.u: 'always 0'
     h37021_1.u: 'always 0'
     h37022_1.u: 'always 0'
-    h37023_1.u: 'always 0'
+    # 0     in 146.116.106
+    # 65535 in 147.117.112
+    h37023_1.u: '0 or 65535?' 
     h37024_1.u: 'always 0'
 
   h41000_1.1u:
@@ -483,10 +509,11 @@ info:
   h47400_1.1x:
     alias: '@h47400'
     append: [ '@all', '@nonzero' , '@ctrl' ]
-    h47400_1.x: 'always 0xAABB?' # A switch like Forced Mode (h42000)? 
+    h47400_1.x: 'always 0xAABB?' # a switch like h41000 or h42000 ? 
 
 alias:
    '@all': [ ]  # ...
-   '@zero': [ ] # ... contain the groups that are always filled with zeros.
+   '@zero': [ ] # ... contain the groups that are soo far always filled with zeros.
+   '@nonzero': [ ] # ... everything the groups that contains at least one non-zer value. 
    '@flags': [ ] # ... contain the groups that contains flag words
    

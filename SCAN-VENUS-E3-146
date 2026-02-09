@@ -1,0 +1,44 @@
+===== HA MODBUS STOP VENUS =====
+### python3 /home/chauveau/git/modbus-marstek-venus3/modbus.py -c /home/chauveau/git/modbus-marstek-venus3/config_venus3.yaml scan 30000 50000 10
+# Scan Holding Registers from 30000 to 50000 step 10 
+# Found address=30000 count=8
+# Found address=30010 count=1
+# Found address=30020 count=21
+# Found address=30100 count=11
+# Found address=30200 count=6
+# Found address=30210 count=5
+# Found address=30300 count=10
+# Found address=30350 count=6
+# Found address=30400 count=4
+# Found address=31000 count=10
+# Found address=32100 count=15
+# Found address=32200 count=5
+# Found address=32300 count=3
+# Found address=33000 count=12
+# Found address=34000 count=34
+# Found address=34100 count=34
+# Found address=34200 count=34
+# Found address=34300 count=34
+# Found address=34400 count=34
+# Found address=34500 count=34
+# Found address=34600 count=34
+# Found address=35000 count=3
+# Found address=35010 count=2
+# Found address=35100 count=1
+# Found address=35110 count=3
+# Found address=36000 count=2
+# Found address=36100 count=4
+# Found address=37000 count=25
+# Found address=41000 count=1
+# Found address=41100 count=1
+# Found address=41200 count=1
+# Found address=41500 count=16
+# Found address=41600 count=32
+# Found address=42000 count=1
+# Found address=42010 count=2
+# Found address=42020 count=2
+# Found address=43000 count=1
+# Found address=43100 count=30
+# Found address=47400 count=1
+# Summary: Found 483 registers in 39 blocks
+===== HA MODBUS RELOAD =====
